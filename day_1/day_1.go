@@ -10,8 +10,23 @@ import (
 func GetDepthIncreaseCount(path string) int {
 	depths := getDepthsFromFile(path)
 	var counter int
-	for i, depth := range depths {
-		if i != 0 && (depth > depths[i-1]) {
+	for i := 1; i < len(depths); i++ {
+		if depths[i] > depths[i-1] {
+			counter++
+		}
+	}
+
+	return counter
+}
+
+func GetSlidingDepthIncreaseCount(path string) int {
+	depths := getDepthsFromFile(path)
+	var counter int
+	for i := 1; i < len(depths)-2; i++ {
+		previous_set_sum := depths[i-1] + depths[i] + depths[i+1]
+		next_set_sum := depths[i] + depths[i+1] + depths[i+2]
+
+		if next_set_sum > previous_set_sum {
 			counter++
 		}
 	}
