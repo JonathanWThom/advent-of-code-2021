@@ -2,4 +2,4 @@
 
 [![Build](https://github.com/JonathanWThom/advent-of-code-2021/actions/workflows/build.yml/badge.svg)](https://github.com/JonathanWThom/advent-of-code-2021/actions/workflows/build.yml)
 
-[https://adventofcode.com/](https://adventofcode.com/)
+🎅 [adventofcode.com](https://adventofcode.com/)
