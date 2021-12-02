@@ -1,10 +1,10 @@
 package day_1
 
 import (
-	"bufio"
 	"log"
-	"os"
 	"strconv"
+
+	"github.com/jonathanwthom/advent-of-code-2021/helpers"
 )
 
 func GetDepthIncreaseCount(path string) int {
@@ -35,25 +35,15 @@ func GetSlidingDepthIncreaseCount(path string) int {
 }
 
 func getDepthsFromFile(path string) []int {
-	file, err := os.Open(path)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	var lines []int
-	for scanner.Scan() {
-		integer, err := strconv.Atoi(scanner.Text())
+	lines := helpers.ReadLines(path)
+	var depths []int
+	for _, line := range lines {
+		depth, err := strconv.Atoi(line)
 		if err != nil {
 			log.Fatal(err)
 		}
-		lines = append(lines, integer)
+		depths = append(depths, depth)
 	}
 
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
-
-	return lines
+	return depths
 }
