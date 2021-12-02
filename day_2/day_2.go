@@ -32,6 +32,27 @@ func GetFinalPositionProduct(path string) int {
 	return depth * horizontal
 }
 
+func GetFinalPositionWithAimProduct(path string) int {
+	instructions := createInstructionsFromFile(path)
+	var depth int
+	var horizontal int
+	var aim int
+
+	for _, instruction := range instructions {
+		switch instruction.direction {
+		case "down":
+			aim += instruction.magnitude
+		case "up":
+			aim -= instruction.magnitude
+		case "forward":
+			horizontal += instruction.magnitude
+			depth += aim * instruction.magnitude
+		}
+	}
+
+	return depth * horizontal
+}
+
 func createInstructionsFromFile(path string) []instruction {
 	rawInstructions := helpers.ReadLines(path)
 	var instructions []instruction
