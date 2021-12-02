@@ -1,5 +1,5 @@
 # Advent of Code 2021
 
-[![Go](https://github.com/JonathanWThom/advent-of-code-2021/actions/workflows/go.yml/badge.svg)](https://github.com/JonathanWThom/advent-of-code-2021/actions/workflows/go.yml)
+[![Build](https://github.com/JonathanWThom/advent-of-code-2021/actions/workflows/build.yml/badge.svg)](https://github.com/JonathanWThom/advent-of-code-2021/actions/workflows/build.yml)
 
 [https://adventofcode.com/](https://adventofcode.com/)
