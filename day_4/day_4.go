@@ -9,10 +9,20 @@ import (
 )
 
 func GetBingoScore(path string) int {
+	return getBingoScore(path, getBoardAndLastNum)
+}
+
+func GetLosingBingoScore(path string) int {
+	return getBingoScore(path, getLosingBoardAndLastNum)
+}
+
+type boardWinnerFunc func([]board, []int) (board, int)
+
+func getBingoScore(path string, getBoardWinner boardWinnerFunc) int {
 	lines := helpers.ReadLines(path)
 	bingoNums := getBingoNums(lines)
 	boards := buildBoards(lines)
-	board, bingoNum := getBoardAndLastNum(boards, bingoNums)
+	board, bingoNum := getBoardWinner(boards, bingoNums)
 	unmarkedSum := board.getUnmarkedSum()
 
 	return bingoNum * unmarkedSum
@@ -62,7 +72,7 @@ checkBingo:
 		}
 
 		for _, board := range boards {
-			if board.checkBingo() {
+			if board.hasNewBingo() {
 				b = board
 				lastNum = bingoNum
 				break checkBingo
@@ -73,9 +83,40 @@ checkBingo:
 	return b, lastNum
 }
 
+func getLosingBoardAndLastNum(boards []board, bingoNums []int) (board, int) {
+	var b board
+	var lastNum int
+	var boardsWithBingo int
+
+checkBingo:
+	for _, bingoNum := range bingoNums {
+		for i, board := range boards {
+			board.markBingoNum(bingoNum, i)
+			boards[i] = board
+		}
+
+		for i, board := range boards {
+			if board.hasNewBingo() {
+				board.bingo = true
+				boards[i] = board
+				boardsWithBingo += 1
+
+				if boardsWithBingo == len(boards) {
+					b = board
+					lastNum = bingoNum
+					break checkBingo
+				}
+			}
+		}
+	}
+
+	return b, lastNum
+}
+
 type board struct {
 	squares       []int
 	markedIndexes []int
+	bingo         bool
 }
 
 var bingoWinners = [][]int{
@@ -91,7 +132,11 @@ var bingoWinners = [][]int{
 	{4, 9, 14, 19, 24},
 }
 
-func (b *board) checkBingo() bool {
+func (b *board) hasNewBingo() bool {
+	if b.bingo {
+		return false
+	}
+
 	for _, winnerSet := range bingoWinners {
 		var matches int
 		for _, winner := range winnerSet {
@@ -99,6 +144,7 @@ func (b *board) checkBingo() bool {
 				if markedIndex == winner {
 					matches += 1
 					if matches == 5 {
+						b.bingo = true
 						return true
 					}
 				}
