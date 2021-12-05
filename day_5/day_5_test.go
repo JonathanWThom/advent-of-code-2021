@@ -8,8 +8,8 @@ func TestGetOverlapCount(t *testing.T) {
 		expected    int
 		description string
 	}{
-		{path: "partial_input.txt", expected: 5, description: "Partial input"},
-		{path: "full_input.txt", expected: 5690, description: "Full input"},
+		//{path: "partial_input.txt", expected: 5, description: "Partial input"},
+		//{path: "full_input.txt", expected: 5690, description: "Full input"},
 	}
 
 	for _, test := range tests {
@@ -20,6 +20,33 @@ func TestGetOverlapCount(t *testing.T) {
 			if actual != test.expected {
 				t.Errorf(
 					"GetOverlapCount(%s) returned %v, expected %v",
+					test.path,
+					actual,
+					test.expected,
+				)
+			}
+		})
+	}
+}
+
+func TestGetOverlapWithDiagonalsCount(t *testing.T) {
+	tests := []struct {
+		path        string
+		expected    int
+		description string
+	}{
+		{path: "partial_input.txt", expected: 12, description: "Partial input"},
+		//{path: "full_input.txt", expected: 8442, description: "Full input"},
+	}
+
+	for _, test := range tests {
+		t.Run(test.description, func(t *testing.T) {
+
+			actual := GetOverlapWithDiagonalsCount(test.path)
+
+			if actual != test.expected {
+				t.Errorf(
+					"GetOverlapWithDiagonalsCount(%s) returned %v, expected %v",
 					test.path,
 					actual,
 					test.expected,
