@@ -6,24 +6,35 @@ import (
 	"github.com/jonathanwthom/advent-of-code-2021/helpers"
 )
 
-func GetLaternfishCount(path string) int {
+func GetLaternfishCount(path string, days int) int {
 	fishes := getStartingFishes(path)
+	var fishCount = len(fishes)
 
-	for i := 0; i < 80; i++ {
-		for i, f := range fishes {
-			f, addNewFish := f.tick()
-			fishes[i] = f
-			if addNewFish {
-				fishes = append(fishes, fish{timer: 8})
-			}
-		}
+	for _, f := range fishes {
+		fishCount += f.tickFor(days)
 	}
 
-	return len(fishes)
+	return fishCount
 }
 
 type fish struct {
 	timer int
+}
+
+func (f *fish) tickFor(days int) int {
+	var descendents int
+	for i := days; i > 0; i-- {
+		var newFish bool
+		_, newFish = f.tick()
+
+		if newFish {
+			descendents += 1
+			descendent := fish{timer: 8}
+			descendents += descendent.tickFor(i - 1)
+		}
+	}
+
+	return descendents
 }
 
 func (f *fish) tick() (fish, bool) {
