@@ -1,8 +1,6 @@
 package day_5
 
 import (
-	"log"
-	"strconv"
 	"strings"
 
 	"github.com/jonathanwthom/advent-of-code-2021/helpers"
@@ -85,9 +83,9 @@ func getCoordinates(path string) []coordSet {
 		for i, rawCoord := range rawCoords {
 			xy := strings.Split(rawCoord, ",")
 			if i == 0 {
-				set.start = coord{x: toI(xy[0]), y: toI(xy[1])}
+				set.start = coord{x: helpers.ToI(xy[0]), y: helpers.ToI(xy[1])}
 			} else {
-				set.end = coord{x: toI(xy[0]), y: toI(xy[1])}
+				set.end = coord{x: helpers.ToI(xy[0]), y: helpers.ToI(xy[1])}
 			}
 		}
 
@@ -95,14 +93,4 @@ func getCoordinates(path string) []coordSet {
 	}
 
 	return coordinates
-}
-
-// move to helpers
-func toI(s string) int {
-	i, err := strconv.Atoi(s)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return i
 }
